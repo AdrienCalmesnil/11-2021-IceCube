@@ -21,12 +21,12 @@ const scene = new THREE.Scene()
 loader.load('iceCube2.gltf', function (gltf) {
 
     // Wireframe
-    var object = gltf.scene;
-    object.traverse((node) => {
-      if (!node.isMesh) return;
-      node.material.wireframe = true;
-    });
-    scene.add(object);
+    // var object = gltf.scene;
+    // object.traverse((node) => {
+    //   if (!node.isMesh) return;
+    //   node.material.wireframe = true;
+    // });
+    // scene.add(object);
 
     // gltf position
     gltf.scene.position.y = -1.5
@@ -50,6 +50,23 @@ scene.add(pointLight)
 const pointLight2 = new THREE.PointLight(0xFF0000, 1)
 pointLight2.position.set(-2,2,2)
 scene.add(pointLight2)
+
+const lightHelper = new THREE.PointLightHelper(pointLight2)
+scene.add(lightHelper)
+
+// Stars
+function addStar(){
+    const geometry = new THREE.SphereGeometry(0.25,24,24)
+    const material = new THREE.MeshStandardMaterial({color:0xe1ff})
+    const star = new THREE.Mesh(geometry, material)
+
+    const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(50))
+
+    star.position.set(x,y,z)
+    scene.add(star)
+}
+
+Array(200).fill().forEach(addStar)
 
 
 /**
